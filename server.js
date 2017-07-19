@@ -76,7 +76,7 @@ app.get('/api/profile', function apiProfile(req, res){
   });
 });
 
-app.get('/api/projects', function apiProjects(req,res){
+app.get('/api/projects', function apiProjectsIndex(req,res){
   //send all projects as JSON response
   db.Project.find({}, function(err, projects){
     if (err) {
@@ -87,7 +87,7 @@ app.get('/api/projects', function apiProjects(req,res){
   });
 });
 
-app.post('/api/projects', function(req, res){
+app.post('/api/projects', function create(req, res){
   var newProject = new db.Project({
     name: req.body.name,
     description: req.body.description,
@@ -101,6 +101,22 @@ app.post('/api/projects', function(req, res){
         res.send('create error: ' + err);
       }
       res.json(savedProject);
+  });
+});
+
+app.put('/api/projects/:project_id', function(req, res){
+  //use Project model to find the project we want
+  Project.findById(req.params.project_id, function (err, updatedProject){
+    if (err) {
+      res.send('update error: ' + err);
+    }
+
+    updatedProject.name = req.body.name;
+    updatedProject.description = req.body.description;
+    updatedProject.githubRepoUrl = req.body.githubRepoUrl;
+    updatedProject.screenshotUrl = req.body.screenshotUrl;
+
+    res.json(updatedProject);
   });
 });
 

@@ -54,9 +54,10 @@ app.get('/api', function apiIndex(req, res) {
     endpoints: [
       {method: "GET", path: "/api", description: "Index describing all available endpoints"},
       {method: "GET", path: "/api/profile", description: "Who I am and where I am from"},
+      {method: "GET", path: "/api/projects", description: "Index of all projects"},
       {method: "POST", path: "/api/projects", description: "Create a new project"}
     ]
-  })
+  });
 });
 
 app.get('/api/profile', function apiProfile(req, res){
@@ -73,9 +74,19 @@ app.get('/api/profile', function apiProfile(req, res){
       {title: 'The Boss', artist: 'James Brown'},
       {title: 'Strawberry Letter 23', artist: 'The Brothers Johnson'}
     ]
-  })
+  });
 });
 
+app.get('api/projects', function apiProjects(req,res){
+  //send all projects as JSON response
+  db.Project.find(function(err, projects){
+    if (err) {
+      console.log(`index error: ${err}`);
+      res.sendStatus(500);
+    }
+    res.json(projects);
+  });
+});
 /**********
  * SERVER *
  **********/

@@ -8,6 +8,6 @@ var ProjectSchema = new Schema({
       screenshotUrl: String
   });
 
-var ProjectSchema = mongoose.model('Project', ProjectSchema);
+var Project = mongoose.model('Project', ProjectSchema);
 
 module.exports = Project;

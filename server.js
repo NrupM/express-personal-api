@@ -77,16 +77,17 @@ app.get('/api/profile', function apiProfile(req, res){
   });
 });
 
-app.get('api/projects', function apiProjects(req,res){
+app.get('/api/projects', function apiProjects(req,res){
   //send all projects as JSON response
-  db.Project.find(function(err, projects){
+  db.Project.find({}, function(err, projects){
     if (err) {
-      console.log(`index error: ${err}`);
+      console.log('index error: ' + err);
       res.sendStatus(500);
     }
     res.json(projects);
   });
 });
+
 /**********
  * SERVER *
  **********/

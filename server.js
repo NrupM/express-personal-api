@@ -59,6 +59,23 @@ app.get('/api', function apiIndex(req, res) {
   })
 });
 
+app.get('/api/profile', function apiProfile(req, res){
+  res.json({
+    name: 'Mary Northrup',
+    githubUsername: 'NrupM',
+    githubLink: 'https://github.com/NrupM',
+    githubProfileImage:'https://avatars2.githubusercontent.com/u/29370507?v=4&u=440b2b83b74798e15bdc4a8ca0b0681624473828&s=400',
+    personalSiteLink: 'https://nrupm.github.io/',
+    currentCity: 'San Francisco',
+    favoriteSongs: [
+      {title: 'Never 2 Much', artist: 'ODahl'},
+      {title: 'Sugar Snap', artist: 'Tora'},
+      {title: 'The Boss', artist: 'James Brown'},
+      {title: 'Strawberry Letter 23', artist: 'The Brothers Johnson'}
+    ]
+  })
+});
+
 /**********
  * SERVER *
  **********/

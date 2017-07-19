@@ -96,7 +96,7 @@ app.post('/api/projects', function(req, res){
   }); //create an instance of a project
 
   //requrest to the db to save a new Project
-  project.save(function (err, savedProject){
+  newProject.save(function (err, savedProject){
       if (err) {
         res.send('create error: ' + err);
       }

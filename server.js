@@ -47,7 +47,6 @@ app.get('/api', function apiIndex(req, res) {
   // It would be seriously overkill to save any of this to your database.
   // But you should change almost every line of this response.
   res.json({
-    woopsIForgotToDocumentAllMyEndpoints: false,
     message: "Welcome to my personal api! Here's what you need to know!",
     documentationUrl: "https://github.com/NrupM/express-personal-api",
     baseUrl: "https://quiet-tor-44530.herokuapp.com",
@@ -81,12 +80,31 @@ app.get('/api/projects', function apiProjects(req,res){
   //send all projects as JSON response
   db.Project.find({}, function(err, projects){
     if (err) {
-      console.log('index error: ' + err);
+      res.send('project index error: ' + err);
       res.sendStatus(500);
     }
     res.json(projects);
   });
 });
+
+app.post('/api/projects', function(req, res){
+  var newProject = new db.Project({
+    name: req.body.name,
+    description: req.body.description,
+    githubRepoUrl: req.body.githubRepoUrl,
+    screenshotUrl: req.body.screenshotUrl
+  }); //create an instance of a project
+
+  //requrest to the db to save a new Project
+  project.save(function (err, savedProject){
+      if (err) {
+        res.send('create error: ' + err);
+      }
+      res.json(savedProject);
+  });
+});
+
+
 
 /**********
  * SERVER *

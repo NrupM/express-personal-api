@@ -59,6 +59,7 @@ app.get('/api', function apiIndex(req, res) {
   });
 });
 
+//GET profile information
 app.get('/api/profile', function apiProfile(req, res){
   res.json({
     name: 'Mary Northrup',
@@ -76,6 +77,7 @@ app.get('/api/profile', function apiProfile(req, res){
   });
 });
 
+//GET JSON all projects
 app.get('/api/projects', function apiProjectsIndex(req,res){
   //send all projects as JSON response
   db.Project.find({}, function(err, projects){
@@ -87,6 +89,13 @@ app.get('/api/projects', function apiProjectsIndex(req,res){
   });
 });
 
+app.get('/api/projects/:project_id', function(req, res){
+  db.Project.findOne({_id: req.params.project_id}, function getOneProject(err, project){
+    res.json(project);
+  });
+});
+
+//Create new project
 app.post('/api/projects', function create(req, res){
   var newProject = new db.Project({
     name: req.body.name,
@@ -104,19 +113,19 @@ app.post('/api/projects', function create(req, res){
   });
 });
 
-app.put('/api/projects/:project_id', function(req, res){
+app.put('/api/projects/:project_id', function update(req, res){
   //use Project model to find the project we want
-  Project.findById(req.params.project_id, function (err, updatedProject){
-    if (err) {
-      res.send('update error: ' + err);
-    }
+  db.Project.findById(req.params.project_id, function (err, updateProject){
+    if (err) { res.send('update error: ' + err); }
 
-    updatedProject.name = req.body.name;
-    updatedProject.description = req.body.description;
-    updatedProject.githubRepoUrl = req.body.githubRepoUrl;
-    updatedProject.screenshotUrl = req.body.screenshotUrl;
-
-    res.json(updatedProject);
+    updateProject.name = req.body.name;
+    updateProject.description = req.body.description;
+    updateProject.githubRepoUrl = req.body.githubRepoUrl;
+    updateProject.screenshotUrl = req.body.screenshotUrl;
+    updateProject.save(function(err, savedProject){
+      if (err) { res.send('saved update error: ' + err); }
+      res.json(savedProject);
+    });
   });
 });
 
